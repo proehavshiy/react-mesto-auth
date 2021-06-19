@@ -1,0 +1,42 @@
+.form__button-save {
+  margin: 0 auto 37px;
+  width: 83.255814%;
+  height: 50px;
+  border-radius: 2px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  text-align: center;
+}
+
+.form__button-save:hover {
+  opacity: 0.8;
+}
+
+.form__button-save:disabled {
+  border-radius: 2px;
+  opacity: 0.2;
+}
+
+
+@media screen and (max-width: 500px) {
+  .form__button-save {
+    margin: 0 7.80141844% 25px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .form__button-save {
+    height: 46px;
+    font-size: 14px;
+    line-height: 1.21;
+  }
+}
+
+/* стили горизонтальной ориентации */
+@media screen and (max-width: 823px) and (max-height: 414px) {
+  .form__button-save {
+    margin-bottom: 20px;
+  }
+}

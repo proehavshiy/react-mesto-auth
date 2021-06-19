@@ -1,0 +1,32 @@
+.form__heading {
+  margin: 34px 36px 54px;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: left;
+  color: inherit;
+}
+
+@media screen and (max-width: 500px) {
+  .form__heading {
+    margin: 25px 7.80141844% 54px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .form__heading {
+    margin-bottom: 40px;
+    font-size: 18px;
+    line-height: 1.22;
+  }
+}
+
+/* стили горизонтальной ориентации */
+@media screen and (max-width: 823px) and (max-height: 414px) {
+  .form__heading {
+    margin: 15px 36px 30px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+}

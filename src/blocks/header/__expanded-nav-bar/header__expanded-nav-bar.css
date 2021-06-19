@@ -1,0 +1,11 @@
+.header__expanded-nav-bar{
+  margin: 0 auto;
+  padding: 40px 0 40px;
+  width: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+

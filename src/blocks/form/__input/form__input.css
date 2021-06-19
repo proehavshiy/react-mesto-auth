@@ -1,0 +1,25 @@
+.form__input {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 13px;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.21;
+  color: inherit;
+  background: inherit;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  transition: color .2s linear;
+}
+
+.form__input:focus {
+  -webkit-box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.2);
+  box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.2);
+  transition: color .2s linear;
+}

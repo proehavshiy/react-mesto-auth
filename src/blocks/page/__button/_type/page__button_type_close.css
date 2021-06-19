@@ -1,0 +1,20 @@
+.page__button_type_close {
+  width: 40px;
+  height: 40px;
+  background-image: url(../../../../images/popup-close-icon.svg);
+}
+
+@media screen and (max-width: 510px) {
+  .page__button_type_close {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* стили горизонтальной ориентации */
+@media screen and (max-width: 823px) and (max-height: 414px) {
+  .page__button_type_close {
+    width: 40px;
+    height: 40px;
+  }
+}

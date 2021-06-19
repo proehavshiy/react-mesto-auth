@@ -1,0 +1,7 @@
+.element__button-like {
+  margin-bottom: 3px;
+  width: 22px;
+  height: 19px;
+  background-image: url(../../../images/vector-like-button.svg);
+  background-size: 20px 18px;
+}

@@ -1,0 +1,11 @@
+.header__button_burger {
+  width: 24px;
+  height: 0px;
+  border: 1px solid #FFFFFF;
+  margin-bottom: 9px;
+  box-sizing: border-box;
+}
+
+.header__button_burger:last-of-type {
+  margin-bottom: 0px;
+}

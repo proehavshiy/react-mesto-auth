@@ -1,0 +1,18 @@
+.page__button {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+  border: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  transition: opacity 0.2s ease;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.page__button:hover {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}

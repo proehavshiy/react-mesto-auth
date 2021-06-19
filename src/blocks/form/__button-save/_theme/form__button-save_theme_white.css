@@ -1,0 +1,9 @@
+.form__button-save_theme_white {
+  background-color: #000000;
+}
+
+.form__button-save_theme_white:disabled {
+  border: 1px solid #000000;
+  background: transparent;
+  color: #000000;
+}

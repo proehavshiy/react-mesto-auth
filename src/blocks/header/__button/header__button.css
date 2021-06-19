@@ -1,0 +1,15 @@
+.header__button {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media screen and (min-width: 423px) {
+  .header__button {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+

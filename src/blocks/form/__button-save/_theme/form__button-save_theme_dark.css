@@ -1,0 +1,10 @@
+.form__button-save_theme_dark {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.form__button-save_theme_dark:disabled {
+  border: 1px solid #FFFFFF;
+  background: #000000;
+  color: #FFFFFF;
+}

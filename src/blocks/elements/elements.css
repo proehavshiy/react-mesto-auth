@@ -1,0 +1,14 @@
+.elements {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(282px, max-content))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(282px, max-content));
+  row-gap: 20px;
+  -webkit-column-gap: 17px;
+     -moz-column-gap: 17px;
+          column-gap: 17px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
