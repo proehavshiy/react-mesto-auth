@@ -38,21 +38,24 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting }) {
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
-    setInput(prevState => ({
-      ...prevState,
-      name: {
-        value: currentUser.name,
-        valid: true,
-        errorMessage: ''
-      },
-      signing: {
-        value: currentUser.about,
-        valid: true,
-        errorMessage: ''
-      }
-    })
-    );
-  }, [currentUser]);
+    // if нужен для того, чтобы данные в инпутах сбрасывались в изначальное состояние только при открытии формы. так красивее
+    if (isOpen) {
+      setInput(prevState => ({
+        ...prevState,
+        name: {
+          value: currentUser.name,
+          valid: true,
+          errorMessage: ''
+        },
+        signing: {
+          value: currentUser.about,
+          valid: true,
+          errorMessage: ''
+        }
+      })
+      );
+    }
+  }, [currentUser, isOpen]);
 
   //обработчик формы
   function handleSubmit(evt) {

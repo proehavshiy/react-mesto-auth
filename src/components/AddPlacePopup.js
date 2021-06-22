@@ -23,11 +23,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
 
   const inputTextErrorClass = input.location.errorMessage ? 'form__input_error' : '';
   const inputTextErrorCaption = input.location.errorMessage ? 'form__input-error_active' : '';
-  const TextErrorMessage = input.location.errorMessage;
+  const textErrorMessage = input.location.errorMessage;
 
   const inputLinkErrorClass = input.link.errorMessage ? 'form__input_error' : '';
   const inputLinkErrorCaption = input.link.errorMessage ? 'form__input-error_active' : '';
-  const LinkErrorMessage = input.link.errorMessage;
+  const linkErrorMessage = input.link.errorMessage;
 
   //обработчик инпутов
   function handleUserInput({ target }) {
@@ -54,10 +54,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
   }
 
   React.useEffect(() => {
-    //сбрасываем поля после отправки формы
-    //if нужен для того, чтобы в момент ожидания ответа от сервера
-    //кнопка не дизейблилась, и данные инпутов не очищались. так некрасиво
-    if (isSubmitting === true) {
+    //сбрасываем поля при закрытии формы
+    if (isOpen) {
       setInput({
         location: {
           value: '',
@@ -71,7 +69,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
         }
       });
     }
-  }, [isSubmitting]);
+  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -87,13 +85,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
         <section className="form__input-section">
           <input className={`form__input form__input_theme_${theme} ${inputTextErrorClass}`} value={input.location ? input.location.value : ''} onChange={handleUserInput} type="text" name="location" placeholder="Название" required minLength={2} maxLength={30} />
           <span className={`form__input-error ${inputTextErrorCaption}`}>
-            {TextErrorMessage}
+            {textErrorMessage}
           </span>
         </section>
         <section className="form__input-section">
           <input className={`form__input form__input_theme_${theme} ${inputLinkErrorClass}`} value={input.link ? input.link.value : ''} onChange={handleUserInput} type="url" name="link" placeholder="Ссылка на картинку" required />
           <span className={`form__input-error ${inputLinkErrorCaption}`}>
-            {LinkErrorMessage}
+            {linkErrorMessage}
           </span>
         </section>
       </fieldset>

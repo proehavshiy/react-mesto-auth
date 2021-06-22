@@ -18,13 +18,14 @@ import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
+import Spinner from './Spinner';
 
 function App() {
 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [cardForDeletion, setCardForDeletion] = React.useState('');
+  const [cardForDeletion, setCardForDeletion] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [loggedIn, setIsLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
@@ -40,14 +41,7 @@ function App() {
   //стейт для карточек
   const [cards, setCards] = React.useState([]);
   // submit status
-  const [isSubmitting, setIsSubmitting] = React.useState({
-    profile: true,
-    avatar: true,
-    place: true,
-    login: true,
-    register: true,
-    deletion: true
-  });
+  const [isSubmitting, setIsSubmitting] = React.useState(true);
   const [isStatusPopupOpen, setIsStatusPopupOpen] = React.useState(false);
   const [popupStatusMessage, setPopupStatusMessage] = React.useState({
     errorStatus: null,
@@ -73,7 +67,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setCardForDeletion('');
+    setCardForDeletion(null);
     setIsStatusPopupOpen(false);
     // setTimeout(setPopupStatusMessage({
     //   errorStatus: null,
@@ -101,10 +95,7 @@ function App() {
   //колбэк - обновление данных пользователя новыми данными из формы редактирования профиля
   function handleUpdateUser(newUserData) {
     //submit status в момент ожидания
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      profile: false
-    }))
+    setIsSubmitting(false)
     api.sendUserInfo(newUserData)
       .then((newUserDataFromServer) => {
         //обновляем контекст стейт currentUser после редактирования формы
@@ -117,19 +108,13 @@ function App() {
       })
       .finally(() => {
         //submit status в финале запроса
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          profile: true
-        }))
+        setIsSubmitting(true)
       })
   }
 
   //колбэк - обновление аватара новыми данными из формы аватара
   function handleUpdateAvatar(newUrl) {
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      avatar: false
-    }));
+    setIsSubmitting(false);
     api.sendUserAvatar(newUrl)
       .then((newUserDataFromServer) => {
         //обновляем контекст стейт currentUser после редактирования формы
@@ -141,10 +126,7 @@ function App() {
         setErrorMessage(err.status);
       })
       .finally(() => {
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          avatar: true
-        }));
+        setIsSubmitting(true);
       })
   }
 
@@ -175,10 +157,7 @@ function App() {
 
   //колбэк - удаления карточки
   function handleCardDelete(card) {
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      deletion: false
-    }))
+    setIsSubmitting(false)
     api.deleteCard(card._id)
       .then(() => {
         //оборачиваем setCards в колбек, чтобы удаление карточки со страницы происходило только после возвращения ответа от сервера
@@ -195,19 +174,13 @@ function App() {
         setErrorMessage(err.status);
       })
       .finally(() => {
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          deletion: true
-        }))
+        setIsSubmitting(true)
       })
   }
 
   //колбэк - добавление новой карточки
   function handleAddPlace(newCardData) {
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      place: false
-    }));
+    setIsSubmitting(false);
     api.sendNewCard(newCardData)
       .then((newCardFromServer) => {
         //в стейт Cards дозаписываем новую только что созданную карточку
@@ -219,10 +192,7 @@ function App() {
         setErrorMessage(err.status);
       })
       .finally(() => {
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          place: true
-        }));
+        setIsSubmitting(true);
       })
   }
 
@@ -266,10 +236,7 @@ function App() {
   //обработчики форм
   //колбэк - регистрации
   function handleRegister(email, password) {
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      register: false
-    }))
+    setIsSubmitting(false)
     auth.register(email, password)
       .then(data => {
         //открываем попап статуса и добавляем успешный месседж для него
@@ -284,19 +251,13 @@ function App() {
         setErrorMessage(err.status);
       })
       .finally(() => {
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          register: true
-        }))
+        setIsSubmitting(true)
       })
   }
 
   //колбэк - логина
   function handleLogin(email, password) {
-    setIsSubmitting(prevState => ({
-      ...prevState,
-      login: false
-    }))
+    setIsSubmitting(false)
     if (!email || !password) {
       return
     }
@@ -315,10 +276,7 @@ function App() {
         setErrorMessage(err.status);
       })
       .finally(() => {
-        setIsSubmitting(prevState => ({
-          ...prevState,
-          login: true
-        }))
+        setIsSubmitting(true)
       })
   }
 
@@ -363,63 +321,134 @@ function App() {
           <Route path='/sign-up'>
             <Register
               onRegister={handleRegister}
-              isSubmitting={isSubmitting.register}
+              isSubmitting={isSubmitting}
               serverRequestStatus={popupStatusMessage.errorType} />
           </Route>
           <Route path='/sign-in'>
             <Login
               onLogin={handleLogin}
-              isSubmitting={isSubmitting.login}
+              isSubmitting={isSubmitting}
               serverRequestStatus={popupStatusMessage.errorType} />
           </Route>
           <>
-            <ProtectedRoute
-              path='/'
-              loggedIn={loggedIn}
-              cards={cards}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={setCardForDeletion}
-              isUserDataReceived={isUserDataReceived}
-              component={Main} />
-            <Route exact path='/'>
-              <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateUser={handleUpdateUser}
-                isSubmitting={isSubmitting.profile} />
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
-                isSubmitting={isSubmitting.avatar} />
-              <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-                onAddPlace={handleAddPlace}
-                isSubmitting={isSubmitting.place} />
-              <ImagePopup
-                card={selectedCard}
-                onClose={closeAllPopups} />
-              <PopupConfirmDeletion
-                onClose={closeAllPopups}
-                handleCardDelete={handleCardDelete}
-                cardForDeletion={cardForDeletion}
-                isSubmitting={isSubmitting.deletion} />
-              <Footer />
-            </Route>
+            <Switch>
+              {/* либо роут незащищенный будет, либо без спиннера, либо спиннер в ProtectedRoute рендерить.
+              Не понимаю, как спиннер можно отрендерить в App при ожидании данных и чтобы главная была защищена */}
+              {!isUserDataReceived && <Spinner />}
+              <ProtectedRoute
+                path='/'
+                loggedIn={loggedIn}
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={setCardForDeletion}
+                isUserDataReceived={isUserDataReceived}
+                component={Main} />
+            </Switch>
+            <Footer />
           </>
         </Switch>
         <InfoTooltip
           isOpen={isStatusPopupOpen}
           onClose={closeAllPopups}
           popupStatusMessage={popupStatusMessage} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          isSubmitting={isSubmitting} />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          isSubmitting={isSubmitting} />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlace}
+          isSubmitting={isSubmitting} />
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups} />
+        <PopupConfirmDeletion
+          onClose={closeAllPopups}
+          handleCardDelete={handleCardDelete}
+          cardForDeletion={cardForDeletion}
+          isSubmitting={isSubmitting} />
       </div>
     </CurrentUserContext.Provider>
   );
 }
 
 export default App;
+
+// return (
+//   <CurrentUserContext.Provider value={currentUser}>
+//     <div className="page">
+//       <Header
+//         onSignOut={handleSignOut}
+//         email={email} />
+//       <Switch>
+//         <Route path='/sign-up'>
+//           <Register
+//             onRegister={handleRegister}
+//             isSubmitting={isSubmitting.register}
+//             serverRequestStatus={popupStatusMessage.errorType} />
+//         </Route>
+//         <Route path='/sign-in'>
+//           <Login
+//             onLogin={handleLogin}
+//             isSubmitting={isSubmitting.login}
+//             serverRequestStatus={popupStatusMessage.errorType} />
+//         </Route>
+//         <>
+//           <ProtectedRoute
+//             path='/'
+//             loggedIn={loggedIn}
+//             cards={cards}
+//             onEditProfile={handleEditProfileClick}
+//             onAddPlace={handleAddPlaceClick}
+//             onEditAvatar={handleEditAvatarClick}
+//             onCardClick={handleCardClick}
+//             onCardLike={handleCardLike}
+//             onCardDelete={setCardForDeletion}
+//             isUserDataReceived={isUserDataReceived}
+//             component={Main} />
+//           <Route exact path='/'>
+//             <EditProfilePopup
+//               isOpen={isEditProfilePopupOpen}
+//               onClose={closeAllPopups}
+//               onUpdateUser={handleUpdateUser}
+//               isSubmitting={isSubmitting.profile} />
+//             <EditAvatarPopup
+//               isOpen={isEditAvatarPopupOpen}
+//               onClose={closeAllPopups}
+//               onUpdateAvatar={handleUpdateAvatar}
+//               isSubmitting={isSubmitting.avatar} />
+//             <AddPlacePopup
+//               isOpen={isAddPlacePopupOpen}
+//               onClose={closeAllPopups}
+//               onAddPlace={handleAddPlace}
+//               isSubmitting={isSubmitting.place} />
+//             <ImagePopup
+//               card={selectedCard}
+//               onClose={closeAllPopups} />
+//             <PopupConfirmDeletion
+//               onClose={closeAllPopups}
+//               handleCardDelete={handleCardDelete}
+//               cardForDeletion={cardForDeletion}
+//               isSubmitting={isSubmitting.deletion} />
+//             <Footer />
+//           </Route>
+//         </>
+//       </Switch>
+//       <InfoTooltip
+//         isOpen={isStatusPopupOpen}
+//         onClose={closeAllPopups}
+//         popupStatusMessage={popupStatusMessage} />
+//     </div>
+//   </CurrentUserContext.Provider>
+// );

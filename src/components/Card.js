@@ -1,7 +1,7 @@
 import React from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Card({ card, onCardClick, onCardLike, onCardDelete}) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   //подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -9,16 +9,16 @@ function Card({ card, onCardClick, onCardLike, onCardDelete}) {
   const isOwn = card.owner._id === currentUser._id;
 
   function handleClick() {
-   onCardClick(card);
+    onCardClick(card);
   }
   function handleLikeClick() {
     onCardLike(card);
   }
   function handleDeleteClick() {
-    onCardDelete(card); 
+    onCardDelete(card);
   }
 
- // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = card.likes.some(item => {
     return item._id === currentUser._id;
   });
@@ -27,26 +27,26 @@ function Card({ card, onCardClick, onCardLike, onCardDelete}) {
   const cardLikeButtonClassName = `button-like_active`;
 
   return (
-    <figure className="element" key={card._id}>
+    <figure className="element">
       <img className="element__image" src={card.link} alt={card.name} onClick={handleClick} />
       {isOwn && (
-        <button className="element__button-delete page__button" type="button" aria-label="Удалить карточку" onClick={handleDeleteClick}/>
+        <button className="element__button-delete page__button" type="button" aria-label="Удалить карточку" onClick={handleDeleteClick} />
       )}
       <figcaption className="element__figcaption">
         <h2 className="element__card-title">
-        {card.name}
+          {card.name}
         </h2>
         <div className="element__like-section">
           <button className={`element__button-like page__button ${isLiked ? (cardLikeButtonClassName) : ('')}`} type="button" onClick={handleLikeClick} />
           <p className="element__like-counter">
-          {card.likes.length}
+            {card.likes.length}
           </p>
         </div>
       </figcaption>
     </figure>
-    )
-  }
+  )
+}
 
-  export default Card;
+export default Card;
 
 

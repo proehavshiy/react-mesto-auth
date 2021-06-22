@@ -24,17 +24,15 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSubmitting }) {
   }
 
   React.useEffect(() => {
-    //сбрасываем поле после отправки формы
-    //if нужен для того, чтобы в момент ожидания ответа от сервера
-    //кнопка не дизейблилась, и данные инпутов не очищались. так некрасиво
-    if (isSubmitting === true) {
+    // if нужен для того, чтобы данные в инпутах сбрасывались в изначальное состояние только при открытии формы. так красивее
+    if (isOpen) {
       setInputLink({
         value: '',
         valid: true,
         errorMessage: ''
       })
     }
-  }, [isSubmitting]);
+  }, [isOpen]);
 
   //обработчик инпутов
   function handleUserInput({ target }) {
