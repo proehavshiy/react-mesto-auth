@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/react-mesto-auth",
+  "start_url": "https://github.com/proehavshiy/react-mesto-auth",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
