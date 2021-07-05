@@ -18,7 +18,6 @@ import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
-import Spinner from './Spinner';
 
 function App() {
 
@@ -331,12 +330,12 @@ function App() {
               serverRequestStatus={popupStatusMessage.errorType} />
           </Route>
           <>
-            <Switch>
-              {/* либо роут незащищенный будет, либо без спиннера, либо спиннер в ProtectedRoute рендерить.
+
+            {/* либо роут незащищенный будет, либо без спиннера, либо спиннер в ProtectedRoute рендерить.
               Не понимаю, как спиннер можно отрендерить в App при ожидании данных и чтобы главная была защищена */}
-              {!isUserDataReceived && <Spinner />}
+            {/* {!isUserDataReceived && <Spinner />}
               <ProtectedRoute
-                path='/'
+                exact path='/'
                 loggedIn={loggedIn}
                 cards={cards}
                 onEditProfile={handleEditProfileClick}
@@ -346,8 +345,19 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={setCardForDeletion}
                 isUserDataReceived={isUserDataReceived}
-                component={Main} />
-            </Switch>
+                component={Main} /> */}
+            <ProtectedRoute
+              exact path='/'
+              loggedIn={loggedIn}
+              cards={cards}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={setCardForDeletion}
+              isUserDataReceived={isUserDataReceived}
+              component={Main} />
             <Footer />
           </>
         </Switch>
@@ -378,6 +388,7 @@ function App() {
           handleCardDelete={handleCardDelete}
           cardForDeletion={cardForDeletion}
           isSubmitting={isSubmitting} />
+
       </div>
     </CurrentUserContext.Provider>
   );

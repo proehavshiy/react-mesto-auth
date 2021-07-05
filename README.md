@@ -21,4 +21,4 @@
 * Структура файлов и папок в проекте организована исходя из их функционала.
 
 ## Готовый проект:
- [По ссылке](https://proehavshiy.github.io/mesto/)
+ [По ссылке](https://proehavshiy.github.io/react-mesto-auth/)
