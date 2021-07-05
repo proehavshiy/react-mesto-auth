@@ -2,10 +2,14 @@
     width: 120px;
     height: 120px;
     margin-top: 60px;
+    background: center no-repeat;
 }
 
 @media screen and (max-width: 492px){
   .popup__image-status {
-    margin-top: 50px;
+    width: 100px;
+    height: 100px;
+    background-size: 100% auto;
+    margin-top: 20px;
   }
 }

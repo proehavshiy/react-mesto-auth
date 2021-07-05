@@ -1,11 +1,11 @@
 
 .form__profile-information_margin {
-  margin-bottom: 216px;
+  margin-bottom: 100px;
 }
 
 @media screen and (max-width: 424px) {
   .form__profile-information_margin {
-    margin-bottom: 173px;
+    margin-bottom: 50px;
   }
 }
 

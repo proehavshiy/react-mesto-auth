@@ -4,7 +4,13 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 492px) {
+@media screen and (min-width: 390px) and (max-width: 492px) {
+  .popup__container {
+    max-width: 70%;
+  }
+}
+
+@media screen and (max-width: 389px) {
   .popup__container {
     max-width: 88.125%;
   }
