@@ -4,6 +4,15 @@ import Spinner from "./Spinner";
 
 const ProtectedRoute = ({ component: Component, ...props }) => {
   return (
+    //       <Route>
+    //     {
+    //       () => {
+    //         return props.loggedIn ? (<Component {...props} />) : (<Redirect to='/sign-in' />)
+    //       }
+    //     }
+    //   </Route>
+    // )
+
     <Route>
       {
         () => {

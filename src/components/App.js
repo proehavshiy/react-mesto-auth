@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import * as auth from '../utils/auth';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 import Header from './Header';
-import Main from './Main';
+// import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
@@ -18,6 +18,12 @@ import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
+import Spinner from "./Spinner";
+
+//тестирование lazy loading
+const Main = React.lazy(() => import('./Main'));
+// const Register = React.lazy(() => import('./Register'));
+// const Login = React.lazy(() => import('./Login'));
 
 function App() {
 
@@ -346,18 +352,22 @@ function App() {
                 onCardDelete={setCardForDeletion}
                 isUserDataReceived={isUserDataReceived}
                 component={Main} /> */}
-            <ProtectedRoute
-              exact path='/'
-              loggedIn={loggedIn}
-              cards={cards}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={setCardForDeletion}
-              isUserDataReceived={isUserDataReceived}
-              component={Main} />
+
+            {/* lazy loading main */}
+            <Suspense fallback={<Spinner />}>
+              <ProtectedRoute
+                exact path='/'
+                loggedIn={loggedIn}
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={setCardForDeletion}
+                isUserDataReceived={isUserDataReceived}
+                component={Main} />
+            </Suspense>
             <Footer />
           </>
         </Switch>
