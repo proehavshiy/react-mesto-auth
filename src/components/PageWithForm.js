@@ -7,7 +7,7 @@ function PageWithForm({ name, title, submitText, onSubmit, submitButtonState, is
     <div className='page-with-form page__block-alignment page__animation'>
       <div className={`page-with-form__container page-with-form__container_${name}`}>
         <form className={`form form_theme_${theme}`} onSubmit={onSubmit} name={`${name}-form`} noValidate autoComplete="off">
-          <h2 className="form__heading form__heading_style">
+          <h2 className="form__heading form__heading_style" onClick={() => { throw new Error('test error') }}>
             {title}
           </h2>
           {children}

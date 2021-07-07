@@ -19,6 +19,7 @@ import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
 import Spinner from "./Spinner";
+import ErrorBoundary from './ErrorBoundary';
 
 //тестирование lazy loading
 const Main = React.lazy(() => import('./Main'));
@@ -329,12 +330,18 @@ function App() {
               isSubmitting={isSubmitting}
               serverRequestStatus={popupStatusMessage.errorType} />
           </Route>
+
           <Route path='/sign-in'>
-            <Login
-              onLogin={handleLogin}
-              isSubmitting={isSubmitting}
-              serverRequestStatus={popupStatusMessage.errorType} />
+            <ErrorBoundary>
+              <Login
+                onLogin={handleLogin}
+                isSubmitting={isSubmitting}
+                serverRequestStatus={popupStatusMessage.errorType} />
+            </ErrorBoundary>
+
           </Route>
+
+
           <>
 
             {/* либо роут незащищенный будет, либо без спиннера, либо спиннер в ProtectedRoute рендерить.
