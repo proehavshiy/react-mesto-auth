@@ -1,65 +1,46 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import { useFormWithValidation } from '../hooks/useFormWithValidation';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isSubmitting }) {
 
   const theme = 'white';
 
-  const [inputLink, setInputLink] = React.useState({});
-
-  const submitButtonState = !inputLink.value || !inputLink.value || !inputLink.valid || !inputLink.valid ? false : true;
-  const submitButtonText = isSubmitting ? 'Сохранить' : 'Сохранение...';
-
-  const inputLinkErrorClass = inputLink.errorMessage ? 'form__input_error' : '';
-  const inputLinkErrorCaption = inputLink.errorMessage ? 'form__input-error_active' : '';
+  //контроль инпутов и валидация
+  const { values, setValues, handleChangeInput, errors, isValid, resetFrom } = useFormWithValidation();
 
   //обработчик формы
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    // Передаём новый url во внешний обработчик
+    // Передаём новый url во внешний обработчик для отправки на сервер
     onUpdateAvatar({
-      avatar: inputLink.value
+      avatar: values.link
     });
   }
 
   React.useEffect(() => {
     // if нужен для того, чтобы данные в инпутах сбрасывались в изначальное состояние только при открытии формы. так красивее
     if (isOpen) {
-      setInputLink({
-        value: '',
-        valid: true,
-        errorMessage: ''
-      })
+      resetFrom();
     }
-  }, [isOpen]);
-
-  //обработчик инпутов
-  function handleUserInput({ target }) {
-    const { value, validity: { valid }, validationMessage } = target;
-
-    setInputLink({
-      value,
-      valid,
-      errorMessage: validationMessage
-    })
-  }
+  }, [isOpen, resetFrom]);
 
   return (
     <PopupWithForm
       name="avatar"
       title="Обновить аватар"
-      submitText={submitButtonText}
+      submitText={isSubmitting ? 'Сохранить' : 'Сохранение...'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      submitButtonState={submitButtonState}
+      submitButtonState={isValid}
       theme={theme}>
       <fieldset className="form__profile-information">
         <section className="form__input-section">
-          <input className={`form__input form__input_theme_${theme} ${inputLinkErrorClass}`} value={inputLink.value || ''} onChange={handleUserInput} type="url" name="image-link" placeholder="Ссылка на картинку" required />
-          <span className={`form__input-error ${inputLinkErrorCaption}`}>
-            {inputLink.errorMessage}
+          <input className={`form__input form__input_theme_${theme} ${errors.link && 'form__input_error'}`} value={values.link || ''} onChange={handleChangeInput} type="url" name="link" placeholder="Ссылка на картинку" required />
+          <span className={`form__input-error ${errors.link && 'form__input-error_active'}`}>
+            {errors.link}
           </span>
         </section>
       </fieldset>

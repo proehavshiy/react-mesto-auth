@@ -1,97 +1,52 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import { useFormWithValidation } from '../hooks/useFormWithValidation';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
 
   const theme = 'white';
 
-  const [input, setInput] = React.useState({
-    location: {
-      value: '',
-      valid: false,
-      errorMessage: ''
-    },
-    link: {
-      value: '',
-      valid: false,
-      errorMessage: ''
-    }
-  });
-
-  const submitButtonState = !input.location.valid || !input.link.valid ? false : true;
-  const submitButtonText = isSubmitting ? 'Сохранить' : 'Добавление...';
-
-  const inputTextErrorClass = input.location.errorMessage ? 'form__input_error' : '';
-  const inputTextErrorCaption = input.location.errorMessage ? 'form__input-error_active' : '';
-  const textErrorMessage = input.location.errorMessage;
-
-  const inputLinkErrorClass = input.link.errorMessage ? 'form__input_error' : '';
-  const inputLinkErrorCaption = input.link.errorMessage ? 'form__input-error_active' : '';
-  const linkErrorMessage = input.link.errorMessage;
-
-  //обработчик инпутов
-  function handleUserInput({ target }) {
-    const { name, value, validity: { valid }, validationMessage } = target;
-
-    setInput(prevState => ({
-      ...prevState,
-      [name]: {
-        value,
-        valid,
-        errorMessage: validationMessage
-      }
-    }))
-  }
+  //контроль инпутов и валидация
+  const { values, setValues, handleChangeInput, errors, isValid, resetFrom } = useFormWithValidation();
 
   //обработчик формы
   function handleAddPlaceSubmit(evt) {
     evt.preventDefault();
 
     onAddPlace({
-      name: input.location.value,
-      link: input.link.value
+      name: values.location,
+      link: values.link
     })
   }
 
   React.useEffect(() => {
     //сбрасываем поля при закрытии формы
     if (isOpen) {
-      setInput({
-        location: {
-          value: '',
-          valid: false,
-          errorMessage: ''
-        },
-        link: {
-          value: '',
-          valid: false,
-          errorMessage: ''
-        }
-      });
+      resetFrom();
     }
-  }, [isOpen]);
+  }, [isOpen, resetFrom]);
 
   return (
     <PopupWithForm
       name="add-card"
       title="Новое место"
-      submitText={submitButtonText}
+      submitText={isSubmitting ? 'Сохранить' : 'Добавление...'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleAddPlaceSubmit}
-      submitButtonState={submitButtonState}
+      submitButtonState={isValid}
       theme={theme}>
       <fieldset className="form__profile-information">
         <section className="form__input-section">
-          <input className={`form__input form__input_theme_${theme} ${inputTextErrorClass}`} value={input.location ? input.location.value : ''} onChange={handleUserInput} type="text" name="location" placeholder="Название" required minLength={2} maxLength={30} />
-          <span className={`form__input-error ${inputTextErrorCaption}`}>
-            {textErrorMessage}
+          <input className={`form__input form__input_theme_${theme} ${errors.location && 'form__input_error'}`} value={values.location || ''} onChange={handleChangeInput} type="text" name="location" placeholder="Название" required minLength={2} maxLength={30} />
+          <span className={`form__input-error ${errors.location && 'form__input-error_active'}`}>
+            {errors.location}
           </span>
         </section>
         <section className="form__input-section">
-          <input className={`form__input form__input_theme_${theme} ${inputLinkErrorClass}`} value={input.link ? input.link.value : ''} onChange={handleUserInput} type="url" name="link" placeholder="Ссылка на картинку" required />
-          <span className={`form__input-error ${inputLinkErrorCaption}`}>
-            {linkErrorMessage}
+          <input className={`form__input form__input_theme_${theme} ${errors.link && 'form__input_error'}`} value={values.link || ''} onChange={handleChangeInput} type="url" name="link" placeholder="Ссылка на картинку" required />
+          <span className={`form__input-error ${errors.link && 'form__input-error_active'}`}>
+            {errors.link}
           </span>
         </section>
       </fieldset>
