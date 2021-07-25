@@ -43,11 +43,6 @@ export function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-
-  console.log(values)
-  console.log(errors)
-  console.log(isValid)
-
   return { values, setValues, handleChangeInput, errors, isValid, resetFrom }
 }
 

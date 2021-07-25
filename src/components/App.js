@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 
 import api from '../utils/api';
 import * as auth from '../utils/auth';
@@ -161,11 +160,12 @@ function App() {
       .then(() => {
         //оборачиваем setCards в колбек, чтобы удаление карточки со страницы происходило только после возвращения ответа от сервера
         //после удаления карточки в стейт Cards записываем новый массив оставшихся карточек
-        setCards(
-          cards.filter(item => {
-            //возвращаем только те карточки, которые не совпадают по id с удаленной
-            return item._id !== card._id
-          }))
+        // setCards(
+        //   cards.filter(item => {
+        //     //возвращаем только те карточки, которые не совпадают по id с удаленной
+        //     return item._id !== card._id
+        //   }))
+        setCards(prevState => prevState.filter(item => item._id !== card._id));
         closeAllPopups();
       })
       .catch((err) => {
@@ -300,6 +300,7 @@ function App() {
           }
         })
         .catch(err => {
+          localStorage.removeItem('jwt');
           setIsStatusPopupOpen(true);
           setErrorMessage(err.status);
         })
@@ -329,66 +330,48 @@ function App() {
               isSubmitting={isSubmitting}
               serverRequestStatus={popupStatusMessage.errorType} />
           </Route>
-          <>
-
-            {/* либо роут незащищенный будет, либо без спиннера, либо спиннер в ProtectedRoute рендерить.
-              Не понимаю, как спиннер можно отрендерить в App при ожидании данных и чтобы главная была защищена */}
-            {/* {!isUserDataReceived && <Spinner />}
-              <ProtectedRoute
-                exact path='/'
-                loggedIn={loggedIn}
-                cards={cards}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={setCardForDeletion}
-                isUserDataReceived={isUserDataReceived}
-                component={Main} /> */}
-            <ProtectedRoute
-              exact path='/'
-              loggedIn={loggedIn}
+          <ProtectedRoute
+            path='/'
+            loggedIn={loggedIn}
+            isUserDataReceived={isUserDataReceived} >
+            <Main
               cards={cards}
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
-              onCardDelete={setCardForDeletion}
-              isUserDataReceived={isUserDataReceived}
-              component={Main} />
+              onCardDelete={setCardForDeletion} />
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+              isSubmitting={isSubmitting} />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+              isSubmitting={isSubmitting} />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlace}
+              isSubmitting={isSubmitting} />
+            <ImagePopup
+              card={selectedCard}
+              onClose={closeAllPopups} />
+            <PopupConfirmDeletion
+              onClose={closeAllPopups}
+              handleCardDelete={handleCardDelete}
+              cardForDeletion={cardForDeletion}
+              isSubmitting={isSubmitting} />
             <Footer />
-          </>
+          </ProtectedRoute>
         </Switch>
         <InfoTooltip
           isOpen={isStatusPopupOpen}
           onClose={closeAllPopups}
           popupStatusMessage={popupStatusMessage} />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-          isSubmitting={isSubmitting} />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          isSubmitting={isSubmitting} />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddPlace={handleAddPlace}
-          isSubmitting={isSubmitting} />
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups} />
-        <PopupConfirmDeletion
-          onClose={closeAllPopups}
-          handleCardDelete={handleCardDelete}
-          cardForDeletion={cardForDeletion}
-          isSubmitting={isSubmitting} />
-
       </div>
     </CurrentUserContext.Provider>
   );
