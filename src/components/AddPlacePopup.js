@@ -55,16 +55,3 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
 }
 
 export default AddPlacePopup;
-
-/*
-//для сброса значений при закрытии формы. Зависимость от defaultForm
-  // потому что если от isOpen, я не могу добавить карточку. Данные стейтов очищаются раньше, чем отправка происходит
-  //приходится 2 раза сбрасывать
-  //стейт для сброса полей формы к начальному состоянию
-  const [defaultForm, setDefaultForm] = React.useState(false);
-  //React.useEffect(()=> {
-  //  setInputText('')
-  //  setInputLink('')
-  //  setDefaultForm(false)
-  //},[defaultForm]);
-*/

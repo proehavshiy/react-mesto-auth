@@ -31,10 +31,3 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
   )
 }
 export default Main;
-
-/*
-{cards.map(({ _id, ...card }) => (
-        <Card key={_id} card={card} onCardClick={onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
-        )
-      )}
-*/

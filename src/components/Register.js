@@ -58,18 +58,3 @@ function Register({ onRegister, isSubmitting, serverRequestStatus }) {
 }
 
 export default Register;
-
-
-
-/*
-<PopupWithForm
-        name="add-card"
-        title="Новое место"
-        submitText={submitButtonText}
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleAddPlaceSubmit}
-        submitButtonState={submitButtonState}>
-
-        </PopupWithForm>
-*/

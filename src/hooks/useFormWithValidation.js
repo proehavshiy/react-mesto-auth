@@ -17,7 +17,6 @@ export function useFormWithValidation() {
       const error = input.validationMessage;
       const isFormValid = input.closest('form').checkValidity();
 
-      //setValues({ ...values, [name]: value })
       //записываем поле-значение
       setValues(prevState => ({
         ...prevState,

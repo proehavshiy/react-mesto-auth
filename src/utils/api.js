@@ -1,19 +1,13 @@
 class Api {
   constructor({ serverUrl, cohort, token, }) {
-    this._serverUrl = serverUrl; // https://mesto.nomoreparties.co/v1
-    //this._requestPath = requestPath; // меняется постоянно напр: users/me
-    this._cohort = cohort; // cohort-22
-    this._token = token; // a039ff03-9c34-4fce-91e0-77cd409474e3
+    this._serverUrl = serverUrl;
+    this._cohort = cohort;
+    this._token = token;
   }
-  ////метод для единого вызова методов серверных запросов
-  //getPromiseAll(...requests) {
-  //  const promises = [...requests]
-  //  //console.log("Promise.all - массив изначальный",promises);
-  //  return Promise.all(promises)
-  //}
+
   //проверка метода
   _checkResponse(response) {
-    if(response.ok) {
+    if (response.ok) {
       return response.json();
     }
     return Promise.reject(`Ошибка ${response.status}`)
@@ -48,7 +42,7 @@ class Api {
         about: about
       })
     })
-    .then(this._checkResponse);
+      .then(this._checkResponse);
   }
   //добавление новой карточки на сервер
   sendNewCard({ name, link }) {
@@ -63,7 +57,7 @@ class Api {
         link: link //ссылка на картинку
       })
     })
-    .then(this._checkResponse);
+      .then(this._checkResponse);
   }
   //добавление новой карточки на сервер
   deleteCard(cardId) {
@@ -80,7 +74,7 @@ class Api {
         _id: cardId
       })
     })
-    .then(this._checkResponse);
+      .then(this._checkResponse);
   }
 
   //Обновление аватара пользователя
@@ -95,7 +89,7 @@ class Api {
         avatar: avatar
       })
     })
-    .then(this._checkResponse);
+      .then(this._checkResponse);
   }
 
   changeLikeCardStatus(cardID, like) {

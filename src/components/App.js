@@ -138,14 +138,6 @@ function App() {
       .then((updatedCard) => {
         //обновляем массив карточек cards для рендеринга с новым кол-вом лайков
         setCards((state) => state.map((c) => c._id === activatedCard._id ? updatedCard : c));
-        //setCards((state) => {
-        //  //в изначальном массиве перебираем через map карточки
-        //  //если находим лайкнутую, обновляем ее
-        //  //если находим нелайкнутую, не обновляем ее
-        //  return (state.map( (card) => {
-        //    return (card._id === activatedCard._id ? updatedCard : card)
-        //  }))
-        //})
       })
       .catch((err) => {
         setIsStatusPopupOpen(true);
@@ -160,11 +152,6 @@ function App() {
       .then(() => {
         //оборачиваем setCards в колбек, чтобы удаление карточки со страницы происходило только после возвращения ответа от сервера
         //после удаления карточки в стейт Cards записываем новый массив оставшихся карточек
-        // setCards(
-        //   cards.filter(item => {
-        //     //возвращаем только те карточки, которые не совпадают по id с удаленной
-        //     return item._id !== card._id
-        //   }))
         setCards(prevState => prevState.filter(item => item._id !== card._id));
         closeAllPopups();
       })
@@ -378,71 +365,3 @@ function App() {
 }
 
 export default App;
-
-// return (
-//   <CurrentUserContext.Provider value={currentUser}>
-//     <div className="page">
-//       <Header
-//         onSignOut={handleSignOut}
-//         email={email} />
-//       <Switch>
-//         <Route path='/sign-up'>
-//           <Register
-//             onRegister={handleRegister}
-//             isSubmitting={isSubmitting.register}
-//             serverRequestStatus={popupStatusMessage.errorType} />
-//         </Route>
-//         <Route path='/sign-in'>
-//           <Login
-//             onLogin={handleLogin}
-//             isSubmitting={isSubmitting.login}
-//             serverRequestStatus={popupStatusMessage.errorType} />
-//         </Route>
-//         <>
-//           <ProtectedRoute
-//             path='/'
-//             loggedIn={loggedIn}
-//             cards={cards}
-//             onEditProfile={handleEditProfileClick}
-//             onAddPlace={handleAddPlaceClick}
-//             onEditAvatar={handleEditAvatarClick}
-//             onCardClick={handleCardClick}
-//             onCardLike={handleCardLike}
-//             onCardDelete={setCardForDeletion}
-//             isUserDataReceived={isUserDataReceived}
-//             component={Main} />
-//           <Route exact path='/'>
-//             <EditProfilePopup
-//               isOpen={isEditProfilePopupOpen}
-//               onClose={closeAllPopups}
-//               onUpdateUser={handleUpdateUser}
-//               isSubmitting={isSubmitting.profile} />
-//             <EditAvatarPopup
-//               isOpen={isEditAvatarPopupOpen}
-//               onClose={closeAllPopups}
-//               onUpdateAvatar={handleUpdateAvatar}
-//               isSubmitting={isSubmitting.avatar} />
-//             <AddPlacePopup
-//               isOpen={isAddPlacePopupOpen}
-//               onClose={closeAllPopups}
-//               onAddPlace={handleAddPlace}
-//               isSubmitting={isSubmitting.place} />
-//             <ImagePopup
-//               card={selectedCard}
-//               onClose={closeAllPopups} />
-//             <PopupConfirmDeletion
-//               onClose={closeAllPopups}
-//               handleCardDelete={handleCardDelete}
-//               cardForDeletion={cardForDeletion}
-//               isSubmitting={isSubmitting.deletion} />
-//             <Footer />
-//           </Route>
-//         </>
-//       </Switch>
-//       <InfoTooltip
-//         isOpen={isStatusPopupOpen}
-//         onClose={closeAllPopups}
-//         popupStatusMessage={popupStatusMessage} />
-//     </div>
-//   </CurrentUserContext.Provider>
-// );
